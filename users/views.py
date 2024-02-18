@@ -53,18 +53,14 @@ def login_user(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        user = authenticate(request,username=email,password=password)
+        user=authenticate(request,username=email,password=password)
         if user is not None and user.is_active:
             login(request,user)
-            if request.user.is_applicant :
-                return redirect('applicant_dashboard')
-            elif request.user.is_recruiter:
-                return redirect('recruiter_dashboard')
-            else:
-                return redirect('login')
+            return redirect('dashboard')
         else:
             messages.warning(request,"Something went wrong.")
             return redirect('login')
+        
     else:
         return render(request,'users/login.html')
     
